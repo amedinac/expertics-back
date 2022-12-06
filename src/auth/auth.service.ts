@@ -29,7 +29,7 @@ export class AuthService {
         const userExist = await this.userModel.findOne({email: loginAuthDto.email});
         if(!userExist) throw new HttpException('NOT_FOUND', HttpStatus.NOT_FOUND);
         
-        const isCheck = compare(password, userExist.password);
+        const isCheck = await compare(password, userExist.password);
         if(!isCheck) throw new HttpException('UNAUTHORIZED', HttpStatus.UNAUTHORIZED);
 
         return userExist;
