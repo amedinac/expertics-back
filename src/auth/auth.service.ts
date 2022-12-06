@@ -8,30 +8,33 @@ import { compare, encrypt } from './utils/handleBcrypt';
 
 @Injectable()
 export class AuthService {
+  constructor(
+    @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
+  ) {}
 
-    constructor(
-        @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
-    ){}
+  public async register(registerAuthDto: RegisterAuthDto) {
+    const { password, ...user } = registerAuthDto;
 
-    public async register(registerAuthDto:RegisterAuthDto){
-        const { password, ...user } = registerAuthDto;
+    const userParse = {
+      ...user,
+      password: await encrypt(password),
+    };
+    return this.userModel.create(userParse);
+  }
 
-        const userParse = {
-            ...user, password: await encrypt(password)
-        }
-        return this.userModel.create(userParse);
-    }
+  public async login(loginAuthDto: LoginAuthDto) {
+    const { password } = loginAuthDto;
 
-    public async login(loginAuthDto:LoginAuthDto){
+    const userExist = await this.userModel.findOne({
+      email: loginAuthDto.email,
+    });
+    if (!userExist) throw new HttpException('NOT_FOUND', HttpStatus.NOT_FOUND);
 
-        const { password } = loginAuthDto;
+    const isCheck = await compare(password, userExist.password);
 
-        const userExist = await this.userModel.findOne({email: loginAuthDto.email});
-        if(!userExist) throw new HttpException('NOT_FOUND', HttpStatus.NOT_FOUND);
-        
-        const isCheck = compare(password, userExist.password);
-        if(!isCheck) throw new HttpException('UNAUTHORIZED', HttpStatus.UNAUTHORIZED);
+    if (!isCheck)
+      throw new HttpException('UNAUTHORIZED', HttpStatus.UNAUTHORIZED);
 
-        return userExist;
-    }
+    return userExist;
+  }
 }
