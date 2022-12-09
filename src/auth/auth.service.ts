@@ -39,10 +39,10 @@ export class AuthService {
             id:userFlat._id
         }
 
-        const token = this.jwtService.sign(payload);
+        const token = await this.jwtService.sign(payload);
 
         const data = {
-            token:"",
+            token:token,
             user:userFlat
         }
 
