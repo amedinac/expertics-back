@@ -33,8 +33,7 @@ export class AuthService {
     if (!userExist) throw new HttpException('NOT_FOUND', HttpStatus.NOT_FOUND);
 
     const isCheck = await compare(password, userExist.password);
-    if (!isCheck)
-      throw new HttpException('UNAUTHORIZED', HttpStatus.UNAUTHORIZED);
+    if (!isCheck) throw new HttpException('UNAUTHORIZED', HttpStatus.UNAUTHORIZED);
 
     const userFlat = userExist.toObject();
     delete userFlat.password;
