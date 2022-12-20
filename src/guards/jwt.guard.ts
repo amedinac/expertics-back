@@ -4,5 +4,4 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class JwtGuard extends AuthGuard('jwt') {
-
 }

@@ -7,4 +7,6 @@ export class RegisterAuthDto {
   @IsString()
   @IsNotEmpty()
   password: string;
+
+  role: string;
 }
