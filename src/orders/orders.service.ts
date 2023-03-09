@@ -15,8 +15,8 @@ export class OrdersService {
     return createdOrder.save();
   }
 
-  findAll() {
-    return `This action returns all orders`;
+  async findAll(): Promise<Order[]> {
+    return this.orderModel.find().exec();
   }
 
   findOne(id: number) {

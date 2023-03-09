@@ -6,7 +6,7 @@ import { JwtGuard } from 'src/guards/jwt.guard';
 import { RolesGuard } from 'src/guards/roles.guard';
 
 @Controller('orders')
-@UseGuards(JwtGuard, RolesGuard)
+@UseGuards(/*JwtGuard, RolesGuard*/) // <-- Uncomment this line to enable the guards
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
