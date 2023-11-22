@@ -1,33 +1,54 @@
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
-import { Order, OrderDocument } from './schemas/order.schema';
+import { InjectRepository } from '@nestjs/typeorm';
+import { DataSource, Repository } from 'typeorm';
+import { Order } from './entities/order.entity';
+import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class OrdersService {
 
-  constructor(@InjectModel(Order.name) private orderModel: Model<OrderDocument>) {}
+  constructor(
+    @InjectRepository(Order) private orderRepository: Repository<Order>,
+    @InjectRepository(User) private userRepository: Repository<User>,
+    private readonly dataSource: DataSource
+    ) {}
 
-  async create(createOrderDto: CreateOrderDto): Promise<Order> {
-    const createdOrder = new this.orderModel(createOrderDto);
-    return createdOrder.save();
+
+  async create(data: any) {
+    const user = await this.userRepository.findOneBy({id: data.userId})
+    if (!user) {
+      throw new NotFoundException('user not found');
+    }
+
+    const order = this.orderRepository.create(data);
+
+    await this.orderRepository.save(order);
   }
 
-  async findAll(): Promise<Order[]> {
-    return this.orderModel.find().exec();
+  async findAll() {
+    return this.orderRepository.find()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} order`;
+  async findOne(id: number) {
+    const order = await this.orderRepository.findOneBy({id})
+    return order;
+  } 
+
+  async update(id: number, updateOrderDto: UpdateOrderDto){
+    const order = await this.orderRepository.findOneBy({id})
+
+    // await this.orderRepository.update(order, updateOrderDto);
+    
+
+
   }
 
-  update(id: number, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} order`;
+  async remove(id: number) {
+    const order = await this.orderRepository.delete({id})
+    return order;
   }
 }
+
+

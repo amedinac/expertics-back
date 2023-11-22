@@ -1,53 +1,41 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { User, UserDocument } from 'src/users/schemas/user.schema';
+import { HttpException, HttpStatus, Injectable, NotFoundException, Res, UnauthorizedException } from '@nestjs/common';
 import { LoginAuthDto } from './dto/login-auth.dto';
-import { RegisterAuthDto } from './dto/register-auth.dto';
-import { compare, encrypt } from './utils/handleBcrypt';
+import { compare } from './utils/handleBcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { UsersService } from '../users/users.service';
+import { InjectRepository } from '@nestjs/typeorm';
+import { DataSource, Repository } from 'typeorm';
+import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class AuthService {
   constructor(
+    private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
-    @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
   ) {}
 
-  public async register(registerAuthDto: RegisterAuthDto) {
-    const { password, ...user } = registerAuthDto;
+    async login(loginAuthDto: LoginAuthDto){
+    const { password, email } = loginAuthDto;
 
-    const userParse = {
-      ...user,
-      password: await encrypt(password),
-    };
-    return this.userModel.create(userParse);
-  }
 
-  public async login(loginAuthDto: LoginAuthDto) {
-    const { password } = loginAuthDto;
+    const userExist = await this.usersService.findOneByEmail(email)
+    if (!userExist){
+      throw new NotFoundException()
+    }
 
-    const userExist = await this.userModel.findOne({
-      email: loginAuthDto.email,
-    });
-    if (!userExist) throw new HttpException('NOT_FOUND', HttpStatus.NOT_FOUND);
+    const validPassword = await compare(password, userExist.password)
+    if(validPassword === false) {
+      throw new UnauthorizedException()
+    }
 
-    const isCheck = await compare(password, userExist.password);
-    if (!isCheck) throw new HttpException('UNAUTHORIZED', HttpStatus.UNAUTHORIZED);
-
-    const userFlat = userExist.toObject();
-    delete userFlat.password;
-
-    const payload = {
-      id: userFlat._id,
-    };
-
-    const token = this.jwtService.sign(payload);
-
+    const payload = { id: userExist.id, username: userExist.name, role: userExist.role};
+  
+    const token =  this.jwtService.sign(payload);
+  
     const data = {
       token,
-      user: userFlat,
-    };
+      user: userExist
+    }
 
     return data;
   }
