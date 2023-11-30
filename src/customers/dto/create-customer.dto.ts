@@ -6,9 +6,9 @@ export class CreateCustomerDto {
     @IsNotEmpty()
     name: string;
     
-    @IsString()
-    @IsNotEmpty()
-    lastname: string;
+    // @IsString()
+    // @IsNotEmpty()
+    // lastname: string;
     
     @IsEmail()
     @IsNotEmpty()

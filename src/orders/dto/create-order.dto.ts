@@ -26,4 +26,7 @@ export class CreateOrderDto {
 
   @IsNumber()
   user?: number;
+
+  @IsNumber()
+  customer?: number;
 }

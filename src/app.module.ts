@@ -32,5 +32,5 @@ import { CustomersModule } from './customers/customers.module';
   providers: [],
 })
 export class AppModule {
-  constructor(private dataSource: DataSource){}
+  constructor(private dataSource: DataSource) { }
 }

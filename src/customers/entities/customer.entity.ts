@@ -1,9 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Order } from 'src/orders/entities/order.entity';
+
 
 @Entity({ name: 'customers'})
 export class Customer {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+    @PrimaryGeneratedColumn()
+    id: number;
 
     @Column('text')
     name: string;
@@ -11,11 +13,12 @@ export class Customer {
     // @Column('text')
     // lastname: string;
 
-    @Column('text')
+    @Column('text', {unique:true})
     email: string;
 
     @Column('text')
     phone: string;
 
-
+    @OneToMany(() => Order, (order) => order.customer)
+    orders: Order[]
 }
