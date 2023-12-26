@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { Order } from './entities/order.entity';
 import { User } from '../users/entities/user.entity';
+import { PaginationDto } from 'src/common/pagination.dto';
 
 @Injectable()
 export class OrdersService {
@@ -28,8 +29,13 @@ export class OrdersService {
     return order;
   }
 
-  async findAll() {
+  async findAll(paginationDto: PaginationDto) {
+
+    const { limit = 5, offset = 0 } = paginationDto;
+
     const orders = await this.orderRepository.find({
+      take: limit,
+      skip: offset,
       relations: { user: true, customer: true },
     });
 

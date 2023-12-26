@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Query } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { JwtGuard } from 'src/guards/jwt.guard';
 import { RolesGuard } from 'src/guards/roles.guard';
+import { PaginationDto } from 'src/common/pagination.dto';
 
 @Controller('orders')
 @UseGuards(/*JwtGuard, RolesGuard*/) // <-- Uncomment this line to enable the guards
@@ -16,8 +17,8 @@ export class OrdersController {
   }
 
   @Get()
-  findAll() {
-    return this.ordersService.findAll();
+  findAll(@Query() paginationDto: PaginationDto) {
+    return this.ordersService.findAll(paginationDto);
   }
 
   @Get(':id')
