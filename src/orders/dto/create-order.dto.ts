@@ -28,5 +28,6 @@ export class CreateOrderDto {
   user?: number;
 
   @IsNumber()
+  @IsOptional()
   customer?: number;
 }

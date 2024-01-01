@@ -10,18 +10,35 @@ export class CustomersService {
 
   private readonly logger = new Logger('LoggerService');
 
+  public customerId: number;
+
   constructor(
     @InjectRepository(Customer)
     private readonly customerRepository: Repository<Customer>,
     // private readonly dataSource: DataSource
   ){}
+
+  get getCustomerId(): number {
+    return this.customerId;
+  }
  
+  set setCustomerId(id: number) {
+    this.customerId = id;
+  }
+
+
   async create(createCustomerDto: CreateCustomerDto) {
     try {
       const customer = this.customerRepository.create(createCustomerDto);
       await this.customerRepository.save(customer)
-  
-      return customer;
+        // .then(customer => console.log("desde promesa", customer.id))
+        .then(customer => this.setCustomerId = customer.id)
+        .then(() => console.log("id guardado", this.customerId))
+
+      //console.log(this.customerId)
+      
+      return customer; 
+      
 
     } catch (error) {
       this.handleDBExceptions(error)
@@ -29,14 +46,18 @@ export class CustomersService {
  
   }
 
+
   async findAll() {
     const customers = await this.customerRepository.find();
 
     return customers;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} customer`;
+  async findOne(email: string) {
+    const customer = await this.customerRepository.findOneBy({email})
+
+    // this.customerId = customer.id;
+    return customer;
   }
 
   update(id: number, updateCustomerDto: UpdateCustomerDto) {

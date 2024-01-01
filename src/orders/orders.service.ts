@@ -5,14 +5,20 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { Order } from './entities/order.entity';
 import { User } from '../users/entities/user.entity';
+import { Customer } from '../customers/entities/customer.entity';
 import { PaginationDto } from 'src/common/pagination.dto';
+import { CustomersService } from '../customers/customers.service';
 
 @Injectable()
 export class OrdersService {
 
+  customerId = this.customersService.customerId;
+
   constructor(
     @InjectRepository(Order) private orderRepository: Repository<Order>,
     @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(Customer) private customerRepository: Repository<Customer>,
+    private customersService: CustomersService,
     // private readonly dataSource: DataSource
   ) { }
 
@@ -23,15 +29,26 @@ export class OrdersService {
       throw new NotFoundException('user not found');
     }
 
+    const customer = await this.customerRepository.findOneBy({ id: data.customer })
+    if (!customer) {
+      throw new NotFoundException('customer not found');
+    }
+
+    // const customer = this.customerId;
+    // const newOrder = { customer, ...data }
+
+
     const order = this.orderRepository.create(data);
     await this.orderRepository.save(order);
+
+    console.log('Desde ordersService', this.customerId);
 
     return order;
   }
 
   async findAll(paginationDto: PaginationDto) {
 
-    const { limit = 5, offset = 0 } = paginationDto;
+    const { limit = 10, offset = 0 } = paginationDto;
 
     const orders = await this.orderRepository.find({
       take: limit,
