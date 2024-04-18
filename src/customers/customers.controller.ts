@@ -5,11 +5,17 @@ import { UpdateCustomerDto } from './dto/update-customer.dto';
 
 @Controller('customers')
 export class CustomersController {
-  constructor(private readonly customersService: CustomersService) {}
+  constructor(private readonly customersService: CustomersService) { }
 
   @Post()
   create(@Body() createCustomerDto: CreateCustomerDto) {
     return this.customersService.create(createCustomerDto);
+  }
+
+
+  @Get('search')
+  search(@Query('email') email: string) {
+    return this.customersService.search(email);
   }
 
   @Get()
@@ -17,15 +23,12 @@ export class CustomersController {
     return this.customersService.findAll();
   }
 
-  @Get(':email')
-  findOne(@Param('email') email: string) {
-    return this.customersService.findOne(email);
-  }
+  // @Get(':email')
+  // findOne(@Param('email') email: string) {
+  //   return this.customersService.findOne(email);
+  // }
 
-  @Get()
-  search(@Query('query') query: string){
-    return this.customersService.findOne(query);
-  }
+
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCustomerDto: UpdateCustomerDto) {

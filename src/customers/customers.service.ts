@@ -14,14 +14,14 @@ export class CustomersService {
 
   constructor(
     @InjectRepository(Customer)
-    private readonly customerRepository: Repository<Customer>,
+    private customerRepository: Repository<Customer>,
     // private readonly dataSource: DataSource
-  ){}
+  ) { }
 
   get getCustomerId(): number {
     return this.customerId;
   }
- 
+
   set setCustomerId(id: number) {
     this.customerId = id;
   }
@@ -36,28 +36,26 @@ export class CustomersService {
         .then(() => console.log("id guardado", this.customerId))
 
       //console.log(this.customerId)
-      
-      return customer; 
-      
+
+      return customer;
+
 
     } catch (error) {
       this.handleDBExceptions(error)
     }
- 
+
   }
 
 
   async findAll() {
     const customers = await this.customerRepository.find();
-
     return customers;
   }
 
-  async findOne(email: string) {
-    const customer = await this.customerRepository.findOneBy({email})
-
-    // this.customerId = customer.id;
-    return customer;
+  async search(email: string) {
+    // const customers = await this.customerRepository.findOneBy({ email });
+    const customers = (await this.customerRepository.find()).filter(customer => customer.email.includes(email))
+    return customers;
   }
 
   update(id: number, updateCustomerDto: UpdateCustomerDto) {

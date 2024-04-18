@@ -3,13 +3,14 @@ import { IsEmail, IsString, IsNotEmpty, IsOptional, IsBoolean } from 'class-vali
 export class LoginAuthDto {
  
   @IsEmail()
+  @IsNotEmpty()
   email: string;
 
   @IsString()
   @IsNotEmpty()
   password: string;
 
-  @IsBoolean()
-  @IsOptional()
-  remember: boolean;
+  // @IsBoolean()
+  // @IsOptional()
+  // remember: boolean;
 }

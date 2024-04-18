@@ -48,7 +48,7 @@ export class OrdersService {
 
   async findAll(paginationDto: PaginationDto) {
 
-    const { limit = 10, offset = 0 } = paginationDto;
+    const { limit = 100, offset = 0 } = paginationDto;
 
     const orders = await this.orderRepository.find({
       take: limit,
@@ -63,7 +63,7 @@ export class OrdersService {
       return {
         ...rest,
         user: user?.name,
-        customer: customer?.name
+        customer: customer?.email
       };
     });
 

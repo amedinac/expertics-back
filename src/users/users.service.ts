@@ -85,11 +85,13 @@ export class UsersService {
 
 
   private handleDBExceptions(error: any) {
-
+    console.log(error)
+    this.logger.error(error)
     if (error.code === '23505')
       throw new BadRequestException(error.detail);
 
     this.logger.error(error)
+    console.log(error)
     throw new InternalServerErrorException('Unexpected error, check server logs');
 
   }
