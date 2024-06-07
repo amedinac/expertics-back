@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { CreateCustomerDto } from './dto/create-customer.dto';
@@ -7,7 +12,6 @@ import { Customer } from './entities/customer.entity';
 
 @Injectable()
 export class CustomersService {
-
   private readonly logger = new Logger('LoggerService');
 
   public customerId: number;
@@ -15,8 +19,8 @@ export class CustomersService {
   constructor(
     @InjectRepository(Customer)
     private customerRepository: Repository<Customer>,
-    // private readonly dataSource: DataSource
-  ) { }
+  ) // private readonly dataSource: DataSource
+  {}
 
   get getCustomerId(): number {
     return this.customerId;
@@ -26,26 +30,22 @@ export class CustomersService {
     this.customerId = id;
   }
 
-
   async create(createCustomerDto: CreateCustomerDto) {
     try {
       const customer = this.customerRepository.create(createCustomerDto);
-      await this.customerRepository.save(customer)
+      await this.customerRepository
+        .save(customer)
         // .then(customer => console.log("desde promesa", customer.id))
-        .then(customer => this.setCustomerId = customer.id)
-        .then(() => console.log("id guardado", this.customerId))
+        .then((customer) => (this.setCustomerId = customer.id))
+        .then(() => console.log('id guardado', this.customerId));
 
       //console.log(this.customerId)
 
       return customer;
-
-
     } catch (error) {
-      this.handleDBExceptions(error)
+      this.handleDBExceptions(error);
     }
-
   }
-
 
   async findAll() {
     const customers = await this.customerRepository.find();
@@ -54,7 +54,9 @@ export class CustomersService {
 
   async search(email: string) {
     // const customers = await this.customerRepository.findOneBy({ email });
-    const customers = (await this.customerRepository.find()).filter(customer => customer.email.includes(email))
+    const customers = (await this.customerRepository.find()).filter(
+      (customer) => customer.email.includes(email),
+    );
     return customers;
   }
 
@@ -62,18 +64,20 @@ export class CustomersService {
     return `This action updates a #${id} customer`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} customer`;
-  }
+
+  // ERROR: update or delete on table "customers" violates foreign key constraint "XX" on table "orders"
+  // async remove(id: number) {
+  //   const customer = await this.customerRepository.delete({ id });
+  //   return customer;
+  // }
 
   private handleDBExceptions(error: any) {
+    if (error.code === '23505') throw new BadRequestException(error.detail);
 
-    if (error.code === '23505')
-      throw new BadRequestException(error.detail);
-
-    this.logger.error(error)
-    console.log(error.code)
-    throw new InternalServerErrorException('Unexpected error, check server logs');
-
+    this.logger.error(error);
+    console.log(error.code);
+    throw new InternalServerErrorException(
+      'Unexpected error, check server logs',
+    );
   }
 }

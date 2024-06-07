@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -20,10 +29,18 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
+  // Solo puedo usar un @Get toma el primero por defecto
+  // @Get(':email')
+  // findOneByEmail(@Param('email') email: string) {
+  //   return this.usersService.findOneByEmail(email);
+  // }
+
   @Get(':id')
-  findOne(@Param('id') id: number) {
+  findOneById(@Param('id') id: number) {
     return this.usersService.findOneById(id);
   }
+
+
 
   @Patch(':id')
   update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {

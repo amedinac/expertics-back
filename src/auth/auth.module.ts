@@ -18,10 +18,10 @@ import { UsersService } from 'src/users/users.service';
           signOptions: { expiresIn: '1d' },
         };
       },
-    })
+    }),
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, UsersService],
-  exports: [AuthService]
+  exports: [AuthService],
 })
 export class AuthModule {}

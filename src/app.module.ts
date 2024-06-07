@@ -21,7 +21,7 @@ import { CustomersModule } from './customers/customers.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       autoLoadEntities: true,
-      synchronize: true //Warning: "disable in Prod environment, can lose production data"!
+      synchronize: true, //Warning: "disable in Prod environment, can lose production data"!
     }),
     AuthModule,
     CustomersModule,
@@ -32,5 +32,5 @@ import { CustomersModule } from './customers/customers.module';
   providers: [],
 })
 export class AppModule {
-  constructor(private dataSource: DataSource) { }
+  constructor(private dataSource: DataSource) {}
 }

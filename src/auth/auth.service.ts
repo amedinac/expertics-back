@@ -1,4 +1,11 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException, Res, UnauthorizedException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+  Res,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { compare } from './utils/handleBcrypt';
 import { JwtService } from '@nestjs/jwt';
@@ -14,28 +21,32 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-    async login(loginAuthDto: LoginAuthDto){
+  async login(loginAuthDto: LoginAuthDto) {
     const { password, email } = loginAuthDto;
 
-
-    const userExist = await this.usersService.findOneByEmail(email)
-    if (!userExist){
-      throw new NotFoundException()
+    const userExist = await this.usersService.findOneByEmail(email);
+    if (!userExist) {
+      throw new NotFoundException('This user doesn´t exists!');
     }
 
-    const validPassword = await compare(password, userExist.password)
-    if(validPassword === false) {
-      throw new UnauthorizedException()
+    const validPassword = await compare(password, userExist.password);
+    if (validPassword === false) {
+      throw new UnauthorizedException();
     }
 
-    const payload = { id: userExist.id, username: userExist.name, role: userExist.role};
-  
-    const token =  this.jwtService.sign(payload);
-  
+    const payload = {
+      id: userExist.id,
+      name: userExist.name,
+      email: userExist.email,
+      role: userExist.role,
+    };
+
+    const token = this.jwtService.sign(payload);
+
     const data = {
       token,
-      user: userExist
-    }
+      user: userExist,
+    };
 
     return data;
   }
