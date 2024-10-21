@@ -48,7 +48,7 @@ export class OrdersService {
   }
 
   async findAll(paginationDto: PaginationDto) {
-    const { limit = 10, offset = 0 } = paginationDto;
+    const { limit = 50, offset = 0 } = paginationDto;
 
     const [orders, total] = await this.orderRepository.findAndCount({
       order: {
@@ -70,11 +70,26 @@ export class OrdersService {
 
     return {total, data: ordersFlat};
   }
-
+  
   async findOne(id: number) {
-    const order = await this.orderRepository.findOneBy({ id });
+
+    const order = await this.orderRepository.findOne({
+      relations: {
+        user: true,
+        customer: true
+      },
+      where: {
+        id:id
+      }
+    });
+
     return order;
   }
+
+    // async findOne(id: number) {
+  //   const order = await this.orderRepository.findOneBy({ id });
+  //   return order;
+  // }
 
   async update(id: number, updateOrderDto: UpdateOrderDto) {
     const order = await this.orderRepository.findOneBy({ id });
