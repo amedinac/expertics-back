@@ -16,11 +16,22 @@ import { encrypt } from 'src/auth/utils/handleBcrypt';
 export class UsersService {
   private readonly logger = new Logger('UsersService');
 
+  public userId: number;
+
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly dataSource: DataSource,
   ) {}
+
+
+  get getUserId(): number {
+    return this.userId;
+  }
+
+  set setUserId(id: number) {
+    this.userId = id;
+  }
 
   async create(createUserDto: CreateUserDto) {
     const { password, ...user } = createUserDto;
@@ -32,7 +43,10 @@ export class UsersService {
       };
 
       const newUser = this.userRepository.create(userParse);
-      await this.userRepository.save(newUser);
+      await this.userRepository
+        .save(newUser)
+        .then((newUser) => (this.setUserId = newUser.id))
+        .then(() => console.log('User id guardado.', this.userId))
       return newUser;
     } catch (error) {
       this.handleDBExceptions(error);

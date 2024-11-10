@@ -9,6 +9,7 @@ import { OrdersModule } from './orders/orders.module';
 import { CustomersModule } from './customers/customers.module';
 import { ReportsModule } from './reports/reports.module';
 import { PrinterModule } from './printer/printer.module';
+import { SeedModule } from './seed/seed.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { PrinterModule } from './printer/printer.module';
     UsersModule,
     ReportsModule,
     PrinterModule,
+    SeedModule,
   ],
   controllers: [],
   providers: [],

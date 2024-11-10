@@ -17,8 +17,7 @@ export class OrdersService {
   constructor(
     @InjectRepository(Order) private orderRepository: Repository<Order>,
     @InjectRepository(User) private userRepository: Repository<User>,
-    @InjectRepository(Customer)
-    private customerRepository: Repository<Customer>,
+    @InjectRepository(Customer) private customerRepository: Repository<Customer>,
     private customersService: CustomersService,
   ) // private readonly dataSource: DataSource
   {}
@@ -42,8 +41,11 @@ export class OrdersService {
     const order = this.orderRepository.create(data);
     await this.orderRepository.save(order);
 
+    this.customerId = customer.id;
+
     console.log('Desde ordersService', this.customerId);
 
+    console.log(order)
     return order;
   }
 

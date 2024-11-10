@@ -37,7 +37,7 @@ export class CustomersService {
         .save(customer)
         // .then(customer => console.log("desde promesa", customer.id))
         .then((customer) => (this.setCustomerId = customer.id))
-        .then(() => console.log('id guardado', this.customerId));
+        .then(() => console.log('customer id guardado', this.customerId));
 
       //console.log(this.customerId)
 
