@@ -31,10 +31,10 @@ export class CustomersController {
     return this.customersService.findAll();
   }
 
-  // @Get(':email')
-  // findOne(@Param('email') email: string) {
-  //   return this.customersService.findOne(email);
-  // }
+  @Get(':id')
+  findOne(@Param('id') id: number) {
+    return this.customersService.findOne(id);
+  }
 
   @Patch(':id')
   update(

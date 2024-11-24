@@ -66,7 +66,7 @@ export class OrdersService {
       return {
         ...rest,
         user: user?.name,
-        customer: customer?.email
+        customer: customer?.name
       };
     });
 

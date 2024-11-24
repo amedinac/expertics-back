@@ -52,6 +52,11 @@ export class CustomersService {
     return customers;
   }
 
+  async findOne(id: number) {
+    const customer = await this.customerRepository.findOneBy({id})
+    return customer;
+  }
+
   async search(email: string) {
     // const customers = await this.customerRepository.findOneBy({ email });
     const customers = (await this.customerRepository.find()).filter(
@@ -60,8 +65,15 @@ export class CustomersService {
     return customers;
   }
 
-  update(id: number, updateCustomerDto: UpdateCustomerDto) {
-    return `This action updates a #${id} customer`;
+  async update(id: number, updateCustomerDto: UpdateCustomerDto) {
+    try {
+      await this.customerRepository.update({id}, updateCustomerDto);
+      return updateCustomerDto;
+     
+    } catch (error) {
+      this.handleDBExceptions(error);
+    }
+    console.log(updateCustomerDto)
   }
 
 
