@@ -69,7 +69,7 @@ export class CustomersService {
     try {
       await this.customerRepository.update({id}, updateCustomerDto);
       return updateCustomerDto;
-     
+    
     } catch (error) {
       this.handleDBExceptions(error);
     }
