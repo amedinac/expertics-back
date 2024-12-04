@@ -47,7 +47,7 @@ export const seed: SeedData = {
         {
             name: 'Jorge Estrada',
             email: 'jorge.estrada@expertics.com.mx',
-            password: '12346',
+            password: '123456',
             role: 'ADMIN'
         },
         
