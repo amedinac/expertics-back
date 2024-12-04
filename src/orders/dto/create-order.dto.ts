@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import {
   IsString,
   IsNotEmpty,
@@ -7,6 +8,8 @@ import {
   IsUUID,
   IsNumber,
 } from 'class-validator';
+import { User } from '../../users/entities/user.entity';
+import { Customer } from 'src/customers/entities/customer.entity';
 
 export class CreateOrderDto {
   @IsString()
@@ -29,13 +32,12 @@ export class CreateOrderDto {
   @IsNotEmpty()
   fail: string;
 
-  // @IsDateString()
-  // createdAt?: Date;
 
-  @IsNumber()
-  user?: number;
-
-  @IsNumber()
   @IsOptional()
-  customer?: number;
+  @Type(() => User)
+  user: User;
+
+  @IsOptional()
+  @Type(() => Customer)
+  customer: Customer;
 }

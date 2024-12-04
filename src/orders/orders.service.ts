@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -11,6 +11,8 @@ import { CustomersService } from '../customers/customers.service';
 
 @Injectable()
 export class OrdersService {
+  
+  private readonly logger = new Logger('LogerService');
   customerId = this.customersService.customerId;
   // total: number = 0;
 
@@ -93,8 +95,18 @@ export class OrdersService {
   //   return order;
   // }
 
-  async update(id: number, updateOrderDto: UpdateOrderDto) {
-    const order = await this.orderRepository.findOneBy({ id });
+  //Falta tipar updateOrderDto: any
+  async update(id: number, updateOrderDto: UpdateOrderDto ) {
+
+    try {
+      await this.orderRepository.update({id}, updateOrderDto);
+      return updateOrderDto;
+    } catch (error) {
+      this.handleDBExceptions(error);
+    }
+
+
+    // const order = await this.orderRepository.findOneBy({ id });
     //Falta implementar logica de update order
     // await this.orderRepository.update(order, updateOrderDto);
   }
@@ -103,4 +115,16 @@ export class OrdersService {
     const order = await this.orderRepository.delete({ id });
     return order;
   }
+
+
+  private handleDBExceptions(error: any) {
+    if (error.code === '23505') throw new BadRequestException(error.detail);
+
+    this.logger.error(error);
+    console.log(error.code);
+    throw new InternalServerErrorException(
+      'Unexpected error, check server logs',
+    );
+  }
+  
 }
