@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -30,10 +31,10 @@ export class UsersController {
   }
 
   // Solo puedo usar un @Get toma el primero por defecto
-  // @Get(':email')
-  // findOneByEmail(@Param('email') email: string) {
-  //   return this.usersService.findOneByEmail(email);
-  // }
+  //  @Get(':email')
+  //  findOneByEmail(@Query('email') email: string) {
+  //    return this.usersService.findOneByEmail(email);
+  //  }
 
   @Get(':id')
   findOneById(@Param('id') id: number) {
