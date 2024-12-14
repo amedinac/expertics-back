@@ -10,6 +10,7 @@ import { CustomersModule } from './customers/customers.module';
 import { ReportsModule } from './reports/reports.module';
 import { PrinterModule } from './printer/printer.module';
 import { SeedModule } from './seed/seed.module';
+import { PartsModule } from './parts/parts.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { SeedModule } from './seed/seed.module';
     ReportsModule,
     PrinterModule,
     SeedModule,
+    PartsModule,
   ],
   controllers: [],
   providers: [],
