@@ -53,7 +53,14 @@ export class CustomersService {
   }
 
   async findOne(id: number) {
-    const customer = await this.customerRepository.findOneBy({id})
+    const customer = await this.customerRepository.findOne({
+      relations: {
+        orders: true
+      },
+      where: {
+        id:id
+      }
+    })
     return customer;
   }
 

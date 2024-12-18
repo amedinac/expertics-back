@@ -11,6 +11,7 @@ import { ReportsModule } from './reports/reports.module';
 import { PrinterModule } from './printer/printer.module';
 import { SeedModule } from './seed/seed.module';
 import { PartsModule } from './parts/parts.module';
+import { QuoteModule } from './quote/quote.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { PartsModule } from './parts/parts.module';
     PrinterModule,
     SeedModule,
     PartsModule,
+    QuoteModule,
   ],
   controllers: [],
   providers: [],
