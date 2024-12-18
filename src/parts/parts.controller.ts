@@ -12,15 +12,12 @@ export class PartsController {
     return this.partsService.create(createPartDto);
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.partsService.findAll();
-  // }
-
   @Get()
-  upload(){
-    this.partsService.loadExcel('parts-data.xlsx');
-  }
+    findAll() {
+      return this.partsService.findAll();
+    }
+
+
 
   @Get(':id')
   findOne(@Param('id') id: string) {
@@ -36,5 +33,11 @@ export class PartsController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.partsService.remove(+id);
+  }
+
+  @Post('populate')
+  populateDB(){
+    this.partsService.loadExcel('parts-data.xlsx');
+    console.log('desde-populate')
   }
 }

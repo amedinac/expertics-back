@@ -30,13 +30,13 @@ export class PartsService {
       // Guardar archivo JSON
       fs.writeFileSync('parts-data.json', JSON.stringify(data, null, 2));
       console.log('Archivo JSON guardado exitosamente');
-      await this.importdata();
+      await this.populate();
     } catch (error) {
       console.error('Error al guardar el archivo JSON:', error);
     }
   }
 
-  async importdata(){
+  async populate(){
     const jsonPath = path.join(process.cwd(), 'parts-data.json');
     const jsonData = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
 

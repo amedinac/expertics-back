@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { DetailQuote } from "src/quote/entities/detail-quote.entity";
+import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 
 @Entity({ name: 'parts'})
 export class Part {
@@ -28,5 +29,8 @@ export class Part {
 
     @Column('float')
     cp_bg: number;
+
+    @OneToMany(() => DetailQuote, detail => detail.part)
+    detailsquote: DetailQuote[];
 
 }
