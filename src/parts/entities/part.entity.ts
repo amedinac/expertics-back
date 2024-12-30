@@ -1,5 +1,5 @@
 import { DetailQuote } from "src/quote/entities/detail-quote.entity";
-import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 
 @Entity({ name: 'parts'})
 export class Part {
@@ -30,7 +30,16 @@ export class Part {
     @Column('float')
     cp_bg: number;
 
+    @Column('float', { default: 0 })
+    cost: number;
+
     @OneToMany(() => DetailQuote, detail => detail.part)
     detailsquote: DetailQuote[];
+
+    @BeforeInsert()
+    @BeforeUpdate()
+    calculateCost() {
+        this.cost = this.oow - this.coreprice;
+    }
 
 }

@@ -5,9 +5,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { Order } from './entities/order.entity';
 import { User } from '../users/entities/user.entity';
+import { Quote } from 'src/quote/entities/quote.entity';
 import { Customer } from '../customers/entities/customer.entity';
 import { PaginationDto } from 'src/common/pagination.dto';
 import { CustomersService } from '../customers/customers.service';
+import { QuoteService } from 'src/quote/quote.service';
+
 
 @Injectable()
 export class OrdersService {
@@ -20,11 +23,14 @@ export class OrdersService {
     @InjectRepository(Order) private orderRepository: Repository<Order>,
     @InjectRepository(User) private userRepository: Repository<User>,
     @InjectRepository(Customer) private customerRepository: Repository<Customer>,
+    @InjectRepository(Quote) private quoteRepository: Repository<Quote>,
     private customersService: CustomersService,
+    private quoteService: QuoteService,
   ) // private readonly dataSource: DataSource
   {}
 
   async create(data: any) {
+
     const user = await this.userRepository.findOneBy({ id: data.user });
     if (!user) {
       throw new NotFoundException('user not found');
@@ -37,10 +43,15 @@ export class OrdersService {
       throw new NotFoundException('customer not found');
     }
 
+    //optimizar este codigo!!
+    const quoteR = await this.quoteService.create();
+    const quote = quoteR.id
+
+    const newOrder = { quote, ...data };
     // const customer = this.customerId;
     // const newOrder = { customer, ...data }
 
-    const order = this.orderRepository.create(data);
+    const order = this.orderRepository.create(newOrder);
     await this.orderRepository.save(order);
 
     this.customerId = customer.id;

@@ -93,7 +93,7 @@ export class UsersService {
 
   async delete(id: number) {
     const user = await this.findOneById(id);
-    await this.userRepository.delete(user);
+    await this.userRepository.delete(user.id);
     return { userDeleted: true, email: user.email };
   }
 

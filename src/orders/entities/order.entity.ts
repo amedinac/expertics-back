@@ -5,9 +5,11 @@ import {
   ManyToOne,
   JoinColumn,
   CreateDateColumn,
+  OneToOne,
 } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { Customer } from 'src/customers/entities/customer.entity';
+import { Quote } from 'src/quote/entities/quote.entity';
 
 @Entity({ name: 'orders' })
 export class Order {
@@ -39,4 +41,8 @@ export class Order {
   @ManyToOne(() => Customer, (customer) => customer.orders)
   @JoinColumn({ name: 'customer_id' })
   customer: Customer;
+
+  @OneToOne(() => Quote)
+  @JoinColumn({ name: 'quote_id' })
+  quote: Quote;
 }

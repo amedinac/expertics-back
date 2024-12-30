@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { AfterInsert, BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Quote } from "./quote.entity";
 import { Part } from "src/parts/entities/part.entity";
 
@@ -11,8 +11,11 @@ export class DetailQuote {
     @Column('int')
     quantity: number;
 
-    @Column('decimal', { precision: 10, scale: 2 })
+    @Column('decimal', { precision: 10, scale: 2, nullable: true })
     unitPrice: number;
+
+    @Column('decimal', { precision: 10, scale: 2, default: 0}) 
+    subtotal: number;
 
     @ManyToOne(() => Quote, quote => quote.detailsQuote)
     @JoinColumn({ name: 'quote_id'})
@@ -21,4 +24,12 @@ export class DetailQuote {
     @ManyToOne(() => Part, part => part.detailsquote )
     @JoinColumn({ name: 'part_id'})
     part: Part;
+
+    @BeforeInsert()
+    @BeforeUpdate()
+    calculateSubtotal() {
+        this.subtotal = this.quantity * this.unitPrice;
+        console.log('Before Insert', this.subtotal);
+    }
+    
 }
