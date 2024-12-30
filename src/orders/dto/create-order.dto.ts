@@ -10,6 +10,7 @@ import {
 } from 'class-validator';
 import { User } from '../../users/entities/user.entity';
 import { Customer } from 'src/customers/entities/customer.entity';
+import { Quote } from 'src/quote/entities/quote.entity';
 
 export class CreateOrderDto {
   @IsString()
@@ -40,4 +41,8 @@ export class CreateOrderDto {
   @IsOptional()
   @Type(() => Customer)
   customer: Customer;
+
+  @IsOptional()
+  @Type(() => Quote)
+  quote: Quote;
 }

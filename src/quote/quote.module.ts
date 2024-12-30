@@ -8,6 +8,7 @@ import { DetailQuote } from './entities/detail-quote.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([Quote, DetailQuote])],
   controllers: [QuoteController],
-  providers: [QuoteService]
+  providers: [QuoteService],
+  exports: [QuoteService],
 })
 export class QuoteModule {}
