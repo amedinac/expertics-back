@@ -3,7 +3,7 @@ import { IsNumber, IsOptional, IsPositive } from "class-validator";
 import { Quote } from "../entities/quote.entity";
 import { Part } from "src/parts/entities/part.entity";
 
-export class CreateQuoteDetailDto {
+export class CreateDetailQuoteDto {
 
     @IsNumber()
     @IsPositive()
@@ -16,7 +16,7 @@ export class CreateQuoteDetailDto {
     @IsOptional()
     @Type(() => Quote)
     quote: Quote;
-
+    
     @IsOptional()
     @Type(() => Part)
     part: Part;
