@@ -44,14 +44,14 @@ export class OrdersService {
     }
 
     //optimizar este codigo!!
-    const quoteR = await this.quoteService.create();
-    const quote = quoteR.id
+    // const quoteR = await this.quoteService.createQuote();
+    // const quote = quoteR.id
 
-    const newOrder = { quote, ...data };
+    // const newOrder = { quote, ...data };
     // const customer = this.customerId;
     // const newOrder = { customer, ...data }
 
-    const order = this.orderRepository.create(newOrder);
+    const order = this.orderRepository.create(data);
     await this.orderRepository.save(order);
 
     this.customerId = customer.id;

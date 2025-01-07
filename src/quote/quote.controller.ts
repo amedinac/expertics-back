@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { QuoteService } from './quote.service';
 import { CreateQuoteDto } from './dto/create-quote.dto';
 import { UpdateQuoteDto } from './dto/update-quote.dto';
-import { CreateQuoteDetailDto } from './dto/create-quote-detail';
+import { CreateDetailQuoteDto } from './dto/create-detailQuote.dto';
 
 @Controller('quote')
 export class QuoteController {
@@ -14,8 +14,8 @@ export class QuoteController {
   // }
 
   @Post()
-  create() {
-    return this.quoteService.create();
+  createQuote(@Body() createQuoteDto: CreateQuoteDto) {
+    return this.quoteService.createQuote(createQuoteDto);
   }
 
   // @Post('quote_detail')
@@ -23,9 +23,9 @@ export class QuoteController {
   //   return this.quoteService.createQuoteDetail(createQuoteDetailDto);
   // }
 
-  @Post('quote_detail')
-  async createQuoteDetail(@Body() createQuoteDetailDto: CreateQuoteDetailDto) {
-    return await this.quoteService.createQuoteDetail(createQuoteDetailDto);
+  @Post('detail_quote')
+  createDetailQuote(@Body() createDetailQuoteDto: CreateDetailQuoteDto) {
+    return this.quoteService.createDetailQuote(createDetailQuoteDto);
   }
 
   @Get()
@@ -33,9 +33,14 @@ export class QuoteController {
     return this.quoteService.findAll();
   }
 
-  @Get('quote_detail')
-  findAllQuoteDetail() {
-    return this.quoteService.findAllQuoteDetail();
+  @Get('detail_quote')
+  findAllDetailQuote() {
+    return this.quoteService.findAllDetailQuote();
+  }
+
+  @Get('detail_quote/:id')
+  findDetailQuotebyId(@Param('id') id: number) {
+    return this.quoteService.findDetailQuotebyId(+id);
   }
 
   @Get(':id')
@@ -44,8 +49,8 @@ export class QuoteController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateQuoteDto: UpdateQuoteDto) {
-    return this.quoteService.update(+id, updateQuoteDto);
+  updateQuote(@Param('id') id: string, @Body() updateQuoteDto: UpdateQuoteDto) {
+    return this.quoteService.updateQuote(+id, updateQuoteDto);
   }
 
   @Delete(':id')
