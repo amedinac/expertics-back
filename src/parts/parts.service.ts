@@ -73,6 +73,14 @@ export class PartsService {
     return part;
   }
 
+  async search(description: string) {
+    const parts = (await this.partRepository.find()).filter(
+      (part) => part.description.includes(description),
+    );
+    console.log(description);
+    return parts;
+  }
+
   async update(id: string, updatePartDto: UpdatePartDto) {
     try {
       await this.partRepository.update({id}, updatePartDto);

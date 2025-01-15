@@ -1,4 +1,4 @@
-import { AfterInsert, AfterUpdate, BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { AfterInsert, AfterLoad, AfterUpdate, BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { DetailQuote } from "./detail-quote.entity";
 import { ConsoleLogger } from "@nestjs/common";
 
@@ -28,33 +28,28 @@ export class Quote {
             to: value => value,
             from: value => parseFloat(value) 
         } })
+    tax: number;
+
+    @Column('decimal', {
+        precision: 10,
+        scale: 2,
+        default: 0,
+        transformer: { 
+            to: value => value,
+            from: value => parseFloat(value) 
+        } })
     total: number;
 
     @OneToMany(() => DetailQuote, detail => detail.quote)
     detailsQuote: DetailQuote[];
 
-
-    @BeforeInsert()
-    @BeforeUpdate()
-    updateTotal() {
-        //  const total = this.detailsQuote?.reduce((acc, detail) => {
-        //             acc + (detail.quantity * detail.unitPrice);
-        //          console.log('Before Insert/Update!', total);
-        //          return total
-        //  }, 0);
-        console.log('Before Insert/Update', this.total);
-
+    @AfterLoad()
+    @AfterInsert()
+    @AfterUpdate()
+    calculateTotal() {
+        this.tax = this.subtotal * 0.16;
+        this.total = this.subtotal * 1.16;
+        console.log("tax", this.tax);
     }
-
-
-    //Para calcular el total puedo actualizar el valor desde un servicio.
-    //  @AfterInsert()
-    //  @AfterUpdate()
-    //  calculateTotal() {
-    //       this.total = this.detailsQuote.reduce((acc, detail) => {
-    //           return acc + (detail.quantity * detail.unitPrice);
-    //      }, 0);
-    //      console.log('After Insert/Update', this.total);
-    //  }
 
 }

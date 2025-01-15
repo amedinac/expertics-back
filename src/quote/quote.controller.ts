@@ -4,7 +4,7 @@ import { CreateQuoteDto } from './dto/create-quote.dto';
 import { UpdateQuoteDto } from './dto/update-quote.dto';
 import { CreateDetailQuoteDto } from './dto/create-detailQuote.dto';
 
-@Controller('quote')
+@Controller('quotes')
 export class QuoteController {
   constructor(private readonly quoteService: QuoteService) {}
 
