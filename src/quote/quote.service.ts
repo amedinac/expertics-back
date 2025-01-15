@@ -26,7 +26,7 @@ export class QuoteService {
   async findQuote(id: number) {
     return await this.quoteRepository.findOne({
       where: { id },
-      relations: ['detailsQuote'],
+      relations: ['detailsQuote', 'detailsQuote.part'],
     });
   }
 
@@ -34,12 +34,12 @@ export class QuoteService {
     const detailQuote = this.detailQuoteRepository.create(createDetailQuoteDto);
     await this.detailQuoteRepository.save(detailQuote);
 
-    const { quote } = createDetailQuoteDto;
+    const { quote, part } = createDetailQuoteDto;
      const quoteToUpdate = await this.findQuote(+quote);
     
-     // Calculate subtotal
+     // Calculate subtotal of quote
      const { detailsQuote } = quoteToUpdate;
-     quoteToUpdate.subtotal = detailsQuote.reduce((acc, detail) => acc + detail.subtotal, 0);
+     quoteToUpdate.subtotal = detailsQuote.reduce((acc, detail) => acc + detail.unitPrice, 0);
 
      // Update quote
      const updateQuoteDto: UpdateQuoteDto = {
@@ -72,14 +72,24 @@ export class QuoteService {
     });
   }
 
+
   async updateQuote(id: number, updateQuoteDto: UpdateQuoteDto) {
     try {
-      return await this.quoteRepository.update({ id }, updateQuoteDto);
+        const quote = await this.quoteRepository.findOne({ where: { id } });
+        if (!quote) {
+            throw new Error('Quote not found');
+        }
+        
+        // Actualizar totales
+        quote.subtotal = updateQuoteDto.subtotal;
+        quote.total = quote.subtotal * 1.16;
+
+        return await this.quoteRepository.save(quote);
+    } catch (error) {
+        console.log(error);
+        throw error;
     }
-    catch (error) {
-      console.log(error);
-  }
-  }
+}
 
   remove(id: number) {
     return `This action removes a #${id} quote`;

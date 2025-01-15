@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { PartsService } from './parts.service';
 import { CreatePartDto } from './dto/create-part.dto';
 import { UpdatePartDto } from './dto/update-part.dto';
@@ -11,6 +11,11 @@ export class PartsController {
   create(@Body() createPartDto: CreatePartDto) {
     return this.partsService.create(createPartDto);
   }
+
+  @Get('search')
+    search(@Query('description') description: string) {
+      return this.partsService.search(description);
+    }
 
   @Get()
     findAll() {
