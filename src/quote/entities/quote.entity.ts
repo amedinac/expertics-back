@@ -49,7 +49,5 @@ export class Quote {
     calculateTotal() {
         this.tax = this.subtotal * 0.16;
         this.total = this.subtotal * 1.16;
-        console.log("tax", this.tax);
     }
-
 }

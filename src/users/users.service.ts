@@ -63,7 +63,7 @@ export class UsersService {
     return user;
   }
 
-   async findOneByEmail(email: string) {
+  async findOneByEmail(email: string) {
     return await this.userRepository.findOneBy({ email });
   }
 

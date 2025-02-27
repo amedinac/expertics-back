@@ -42,7 +42,7 @@ export class PartsService {
 
     const parts = [];
 
-    jsonData.forEach(part => {
+    jsonData.forEach((part: CreatePartDto) => {
       parts.push(this.create(part));
     });
 

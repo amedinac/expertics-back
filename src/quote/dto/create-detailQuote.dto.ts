@@ -14,7 +14,7 @@ export class CreateDetailQuoteDto {
     // unitPrice: number;
 
     @IsString()
-    vmi: string;
+    coverage: string;
 
     @IsOptional()
     @Type(() => Quote)

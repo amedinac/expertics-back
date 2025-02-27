@@ -53,7 +53,9 @@ export class QuoteService {
  
   async findAll() {
     return await this.quoteRepository.find({
-      relations: ['detailsQuote'],
+      // relations: ['detailsQuote'],
+
+      relations: ['detailsQuote', 'detailsQuote.part'],
     });
   }
 
