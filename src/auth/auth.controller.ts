@@ -17,7 +17,6 @@ import { JwtGuard } from 'src/guards/jwt.guard';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  //@UseGuards(JwtGuard)
   /*
   @Post('login')
   async login(@Request() req){

@@ -11,20 +11,21 @@ export class DetailQuote {
     // @Column('int')
     // quantity: number;
 
-    @Column('decimal',{
+    @Column('decimal', {
         precision: 10,
         scale: 2,
         default: 0,
-        transformer: { 
+        transformer: {
             to: value => value,
-            from: value => parseFloat(value) 
-        } })
+            from: value => parseFloat(value)
+        }
+    })
     unitPrice: number;
 
 
     @Column('text')
-    vmi: string;
-    
+    coverage: string;
+
 
     // @Column('decimal',{
     //     precision: 10,
@@ -37,21 +38,20 @@ export class DetailQuote {
     // subtotal: number;
 
     @ManyToOne(() => Quote, (quote) => quote.detailsQuote)
-    @JoinColumn({ name: 'quote_id'})
+    @JoinColumn({ name: 'quote_id' })
     quote: Quote;
 
-    @ManyToOne(() => Part, part => part.detailsquote )
-    @JoinColumn({ name: 'part_id'})
+    @ManyToOne(() => Part, part => part.detailsquote)
+    @JoinColumn({ name: 'part_id' })
     part: Part;
 
-     @AfterLoad()
-     @AfterInsert()
-     @AfterUpdate()
+
+    @AfterLoad()
+    @AfterInsert()
+    @AfterUpdate()
     calculateUnitPrice() {
         // this.subtotal = this.quantity * this.unitPrice;
         // console.log("subtotal", this.subtotal);
         this.unitPrice = this.part.cost * 1.3;
-        console.log("unitPrice", this.unitPrice);
     }
-    
 }
