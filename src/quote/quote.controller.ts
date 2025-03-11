@@ -57,4 +57,10 @@ export class QuoteController {
   remove(@Param('id') id: string) {
     return this.quoteService.remove(+id);
   }
+
+  @Delete('detail_quote/:id')
+  deleteDetail(@Param('id') id: string) {
+    return this.quoteService.deleteDetail(+id);
+  }
+
 }

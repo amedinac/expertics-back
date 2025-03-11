@@ -1,4 +1,4 @@
-import { AfterInsert, AfterLoad, AfterUpdate, BeforeInsert, BeforeUpdate, Column, Entity, IsNull, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { AfterInsert, AfterLoad, AfterRemove, AfterUpdate, BeforeInsert, BeforeUpdate, Column, Entity, IsNull, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Quote } from "./quote.entity";
 import { Part } from "src/parts/entities/part.entity";
 
@@ -49,6 +49,7 @@ export class DetailQuote {
     @AfterLoad()
     @AfterInsert()
     @AfterUpdate()
+    @AfterRemove()
     calculateUnitPrice() {
         // this.subtotal = this.quantity * this.unitPrice;
         // console.log("subtotal", this.subtotal);
