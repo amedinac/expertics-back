@@ -1,4 +1,4 @@
-import { AfterInsert, AfterLoad, AfterUpdate, BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { AfterInsert, AfterLoad, AfterRemove, AfterUpdate, BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { DetailQuote } from "./detail-quote.entity";
 import { ConsoleLogger } from "@nestjs/common";
 
@@ -46,6 +46,7 @@ export class Quote {
     @AfterLoad()
     @AfterInsert()
     @AfterUpdate()
+    @AfterRemove()
     calculateTotal() {
         this.tax = this.subtotal * 0.16;
         this.total = this.subtotal * 1.16;

@@ -96,4 +96,9 @@ export class QuoteService {
   remove(id: number) {
     return `This action removes a #${id} quote`;
   }
+
+  async deleteDetail(id: number) {
+    await this.detailQuoteRepository.delete(id);
+    return { message: 'Detail quote deleted' };
+  }
 }
