@@ -47,7 +47,7 @@ export class Quote {
     @AfterInsert()
     @AfterUpdate()
     @AfterRemove()
-    calculateTotal() {
+    async calculateTotal() {
         this.tax = this.subtotal * 0.16;
         this.total = this.subtotal * 1.16;
     }

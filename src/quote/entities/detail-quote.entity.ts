@@ -1,6 +1,8 @@
 import { AfterInsert, AfterLoad, AfterRemove, AfterUpdate, BeforeInsert, BeforeUpdate, Column, Entity, IsNull, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Quote } from "./quote.entity";
 import { Part } from "src/parts/entities/part.entity";
+import { UpdateQuoteDto } from "../dto/update-quote.dto";
+import { QuoteService } from '../quote.service';
 
 
 @Entity('detail_quote')
@@ -44,15 +46,32 @@ export class DetailQuote {
     @ManyToOne(() => Part, part => part.detailsquote)
     @JoinColumn({ name: 'part_id' })
     part: Part;
+    QuoteService: any;
 
 
     @AfterLoad()
     @AfterInsert()
-    @AfterUpdate()
-    @AfterRemove()
-    calculateUnitPrice() {
+    // @AfterUpdate()
+    // @AfterRemove()
+    async calculateUnitPrice() {
         // this.subtotal = this.quantity * this.unitPrice;
-        // console.log("subtotal", this.subtotal);
+    
         this.unitPrice = this.part.cost * 1.3;
+        console.log("unitPrice", this.unitPrice);
+    }
+
+
+   // No funciona
+    @AfterRemove()
+    async calculateSubtotal() {
+        const quoteToUpdate = this.quote;
+        const { detailsQuote } = quoteToUpdate;
+        quoteToUpdate.subtotal = detailsQuote.reduce((acc, detail) => acc + detail.unitPrice, 0);
+
+        const updateQuoteDto: UpdateQuoteDto = {
+            subtotal: quoteToUpdate.subtotal,
+        }
+
+        await this.QuoteService.updateQuote(this.quote, updateQuoteDto);
     }
 }
