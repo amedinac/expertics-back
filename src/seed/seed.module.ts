@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 
 import { OrdersModule } from 'src/orders/orders.module';
 import { UsersModule } from 'src/users/users.module';
-import { CustomersModule } from 'src/customers/customers.module';
+import { ClientsModule } from 'src/clients/clients.module';
 
 import { SeedService } from './seed.service';
 import { SeedController } from './seed.controller';
@@ -13,7 +13,7 @@ import { SeedController } from './seed.controller';
   imports: [
     OrdersModule,
     UsersModule,
-    CustomersModule
+    ClientsModule
   ]
 })
 export class SeedModule {}

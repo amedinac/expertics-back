@@ -10,9 +10,9 @@ interface ReportValues {
   fail: string;
   createdDate: Date;
   userName: string;
-  customerName: string;
-  customerEmail: string;
-  customerPhone: string;
+  clientName: string;
+  clientEmail: string;
+  clientPhone: string;
 }
 
 const styles: StyleDictionary = {
@@ -51,9 +51,9 @@ export const getHelloWorldReport = (values: ReportValues): TDocumentDefinitions 
     fail,
     createdDate,
     userName,
-    customerName,
-    customerEmail,
-    customerPhone,
+    clientName,
+    clientEmail,
+    clientPhone,
 
   } = values;
 
@@ -189,9 +189,9 @@ export const getHelloWorldReport = (values: ReportValues): TDocumentDefinitions 
         columns: [{
           table: {
             body: [
-              [{ text: 'Cliente: ', bold: true, fontSize: 11 }, { text: `${customerName}`, fontSize: 11, margin: [0, 0, 0, 3] }],
-              [{ text: 'E-mail: ', bold: true, fontSize: 11 }, { text: `${customerEmail}`, fontSize: 11, margin: [0, 0, 0, 3] }],
-              [{ text: 'Telefono: ', bold: true, fontSize: 11 }, { text: `${customerPhone}`, fontSize: 11, margin: [0, 0, 0, 3] }],
+              [{ text: 'Cliente: ', bold: true, fontSize: 11 }, { text: `${clientName}`, fontSize: 11, margin: [0, 0, 0, 3] }],
+              [{ text: 'E-mail: ', bold: true, fontSize: 11 }, { text: `${clientEmail}`, fontSize: 11, margin: [0, 0, 0, 3] }],
+              [{ text: 'Telefono: ', bold: true, fontSize: 11 }, { text: `${clientPhone}`, fontSize: 11, margin: [0, 0, 0, 3] }],
             ]
           },
           layout: 'noBorders',
@@ -255,7 +255,7 @@ export const getHelloWorldReport = (values: ReportValues): TDocumentDefinitions 
       {
         columns: [
           { text: `          ${userName}          `, alignment: 'center', fontSize: 12, decoration: 'underline' },
-          { text: `          ${customerName}          `, alignment: 'center', fontSize: 12, decoration: 'underline' }
+          { text: `          ${clientName}          `, alignment: 'center', fontSize: 12, decoration: 'underline' }
         ]
       },
       {

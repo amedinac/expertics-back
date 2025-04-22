@@ -8,7 +8,7 @@ import {
   OneToOne,
 } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
-import { Customer } from 'src/customers/entities/customer.entity';
+import { Client } from 'src/clients/entities/client.entity';
 import { Quote } from 'src/quote/entities/quote.entity';
 
 @Entity({ name: 'orders' })
@@ -38,9 +38,9 @@ export class Order {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @ManyToOne(() => Customer, (customer) => customer.orders)
-  @JoinColumn({ name: 'customer_id' })
-  customer: Customer;
+  @ManyToOne(() => Client, (client) => client.orders)
+  @JoinColumn({ name: 'client_id' })
+  client: Client;
 
   @OneToOne(() => Quote)
   @JoinColumn({ name: 'quote_id' })

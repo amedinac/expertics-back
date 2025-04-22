@@ -6,25 +6,25 @@ import { DataSource, Repository } from 'typeorm';
 import { Order } from './entities/order.entity';
 import { User } from '../users/entities/user.entity';
 import { Quote } from 'src/quote/entities/quote.entity';
-import { Customer } from '../customers/entities/customer.entity';
+import { Client } from '../clients/entities/client.entity';
 import { PaginationDto } from 'src/common/pagination.dto';
-import { CustomersService } from '../customers/customers.service';
+import { ClientsService } from '../clients/clients.service';
 import { QuoteService } from 'src/quote/quote.service';
 
 
 @Injectable()
 export class OrdersService {
   
-  private readonly logger = new Logger('LogerService');
-  customerId = this.customersService.customerId;
+  private readonly logger = new Logger('LoggerService');
+  clientId = this.clientsService.clientId;
   // total: number = 0;
 
   constructor(
     @InjectRepository(Order) private orderRepository: Repository<Order>,
     @InjectRepository(User) private userRepository: Repository<User>,
-    @InjectRepository(Customer) private customerRepository: Repository<Customer>,
+    @InjectRepository(Client) private clientRepository: Repository<Client>,
     @InjectRepository(Quote) private quoteRepository: Repository<Quote>,
-    private customersService: CustomersService,
+    private clientsService: ClientsService,
     private quoteService: QuoteService,
   ) // private readonly dataSource: DataSource
   {}
@@ -33,30 +33,27 @@ export class OrdersService {
 
     const user = await this.userRepository.findOneBy({ id: data.user });
     if (!user) {
-      throw new NotFoundException('user not found');
+      throw new NotFoundException('User not found');
     }
 
-    const customer = await this.customerRepository.findOneBy({
-      id: data.customer,
+    const client = await this.clientRepository.findOneBy({
+      id: data.client,
     });
-    if (!customer) {
-      throw new NotFoundException('customer not found');
+    if (!client) {
+      throw new NotFoundException('Client not found');
     }
 
-    //optimizar este codigo!!
-    // const quoteR = await this.quoteService.createQuote();
-    // const quote = quoteR.id
+    const quote = await this.quoteService.createQuote();
 
-    // const newOrder = { quote, ...data };
-    // const customer = this.customerId;
-    // const newOrder = { customer, ...data }
+    const newOrder = {quote: quote.id, ...data};
+    
 
-    const order = this.orderRepository.create(data);
+    const order = this.orderRepository.create(newOrder);
     await this.orderRepository.save(order);
 
-    this.customerId = customer.id;
+    this.clientId = client.id;
 
-    console.log('Desde ordersService', this.customerId);
+    console.log('Desde ordersService', this.clientId);
 
     console.log(order)
     return order;
@@ -71,15 +68,15 @@ export class OrdersService {
       },
       take: limit,
       skip: offset,
-      relations: { user: true, customer: true },
+      relations: { user: true, client: true },
     });
 
     const ordersFlat = orders.map((order) => {
-      const { user, customer, ...rest } = order;
+      const { user, client, ...rest } = order;
       return {
         ...rest,
         user: user?.name,
-        customer: customer?.name
+        client: client?.name
       };
     });
 
@@ -87,24 +84,11 @@ export class OrdersService {
   }
   
   async findOne(id: number) {
-
-    const order = await this.orderRepository.findOne({
-      relations: {
-        user: true,
-        customer: true
-      },
-      where: {
-        id:id
-      }
+    return await this.orderRepository.findOne({
+      where: {id},
+      relations: ['user', 'client', 'quote']
     });
-
-    return order;
   }
-
-    // async findOne(id: number) {
-  //   const order = await this.orderRepository.findOneBy({ id });
-  //   return order;
-  // }
 
   //Falta tipar updateOrderDto: any
   async update(id: number, updateOrderDto: UpdateOrderDto ) {

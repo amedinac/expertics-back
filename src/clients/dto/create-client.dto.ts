@@ -1,7 +1,7 @@
 import { IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { CustomRepositoryCannotInheritRepositoryError } from 'typeorm';
 
-export class CreateCustomerDto {
+export class CreateClientDto {
   @IsString()
   @IsNotEmpty()
   name: string;

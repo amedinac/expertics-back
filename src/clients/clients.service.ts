@@ -6,54 +6,54 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateCustomerDto } from './dto/create-customer.dto';
-import { UpdateCustomerDto } from './dto/update-customer.dto';
-import { Customer } from './entities/customer.entity';
+import { CreateClientDto } from './dto/create-client.dto';
+import { UpdateClientDto } from './dto/update-client.dto';
+import { Client } from './entities/client.entity';
 
 @Injectable()
-export class CustomersService {
+export class ClientsService {
   private readonly logger = new Logger('LoggerService');
 
-  public customerId: number;
+  public clientId: number;
 
   constructor(
-    @InjectRepository(Customer)
-    private customerRepository: Repository<Customer>,
+    @InjectRepository(Client)
+    private clientRepository: Repository<Client>,
   ) // private readonly dataSource: DataSource
   {}
 
-  get getCustomerId(): number {
-    return this.customerId;
+  get getClientId(): number {
+    return this.clientId;
   }
 
-  set setCustomerId(id: number) {
-    this.customerId = id;
+  set setClientId(id: number) {
+    this.clientId = id;
   }
 
-  async create(createCustomerDto: CreateCustomerDto) {
+  async create(createClientDto: CreateClientDto) {
     try {
-      const customer = this.customerRepository.create(createCustomerDto);
-      await this.customerRepository
-        .save(customer)
+      const client = this.clientRepository.create(createClientDto);
+      await this.clientRepository
+        .save(client)
         // .then(customer => console.log("desde promesa", customer.id))
-        .then((customer) => (this.setCustomerId = customer.id))
-        .then(() => console.log('customer id guardado', this.customerId));
+        .then((client) => (this.setClientId = client.id))
+        .then(() => console.log('customer id guardado', this.clientId));
 
       //console.log(this.customerId)
 
-      return customer;
+      return client;
     } catch (error) {
       this.handleDBExceptions(error);
     }
   }
 
   async findAll() {
-    const customers = await this.customerRepository.find();
-    return customers;
+    const clients = await this.clientRepository.find();
+    return clients;
   }
 
   async findOne(id: number) {
-    const customer = await this.customerRepository.findOne({
+    const client = await this.clientRepository.findOne({
       relations: {
         orders: true
       },
@@ -61,26 +61,26 @@ export class CustomersService {
         id:id
       }
     })
-    return customer;
+    return client;
   }
 
   async search(email: string) {
     // const customers = await this.customerRepository.findOneBy({ email });
-    const customers = (await this.customerRepository.find()).filter(
-      (customer) => customer.email.includes(email),
+    const clients = (await this.clientRepository.find()).filter(
+      (client) => client.email.includes(email),
     );
-    return customers;
+    return clients;
   }
 
-  async update(id: number, updateCustomerDto: UpdateCustomerDto) {
+  async update(id: number, updateClientDto: UpdateClientDto) {
     try {
-      await this.customerRepository.update({id}, updateCustomerDto);
-      return updateCustomerDto;
+      await this.clientRepository.update({id}, updateClientDto);
+      return updateClientDto;
     
     } catch (error) {
       this.handleDBExceptions(error);
     }
-    console.log(updateCustomerDto)
+    console.log(updateClientDto)
   }
 
 

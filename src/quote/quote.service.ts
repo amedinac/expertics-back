@@ -5,7 +5,7 @@ import { UpdateQuoteDto } from './dto/update-quote.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Quote } from './entities/quote.entity';
 import { DetailQuote } from './entities/detail-quote.entity';
-import { Any, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class QuoteService {
@@ -17,13 +17,13 @@ export class QuoteService {
 
 
 
-  async createQuote(createQuoteDto: CreateQuoteDto) {
-    const newquote = this.quoteRepository.create(createQuoteDto);
+  async createQuote() {
+    const newquote = this.quoteRepository.create();
     await this.quoteRepository.save(newquote);
     return newquote;
   } 
 
-  async findQuote(id: number) {
+  async findQuote(id: string) {
     return await this.quoteRepository.findOne({
       where: { id },
       relations: ['detailsQuote', 'detailsQuote.part'],
@@ -35,7 +35,7 @@ export class QuoteService {
     await this.detailQuoteRepository.save(detailQuote);
 
     const { quote, part } = createDetailQuoteDto;
-     const quoteToUpdate = await this.findQuote(+quote);
+     const quoteToUpdate = await this.findQuote(quote.id);
     
      // Calculate subtotal of quote
      const { detailsQuote } = quoteToUpdate;
@@ -46,7 +46,7 @@ export class QuoteService {
        subtotal: quoteToUpdate.subtotal,
      }
 
-    await this.updateQuote(+quote, updateQuoteDto);
+    await this.updateQuote(quote.id, updateQuoteDto);
 
     return detailQuote;
   }
@@ -75,7 +75,7 @@ export class QuoteService {
   }
 
 
-  async updateQuote(id: number, updateQuoteDto: UpdateQuoteDto) {
+  async updateQuote(id: string, updateQuoteDto: UpdateQuoteDto) {
     try {
         const quote = await this.quoteRepository.findOne({ where: { id } });
         if (!quote) {

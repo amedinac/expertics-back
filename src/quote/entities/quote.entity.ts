@@ -1,14 +1,10 @@
 import { AfterInsert, AfterLoad, AfterRemove, AfterUpdate, BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { DetailQuote } from "./detail-quote.entity";
-import { ConsoleLogger } from "@nestjs/common";
 
 @Entity('quotes')
 export class Quote {
-    @PrimaryGeneratedColumn()
-    id: number;
-
-    @CreateDateColumn()
-    createDate: Date;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
 
     @Column('decimal', {
         precision: 10,

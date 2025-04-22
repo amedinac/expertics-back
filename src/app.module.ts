@@ -6,7 +6,7 @@ import { DataSource } from 'typeorm';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { OrdersModule } from './orders/orders.module';
-import { CustomersModule } from './customers/customers.module';
+import { ClientsModule } from './clients/clients.module';
 import { ReportsModule } from './reports/reports.module';
 import { PrinterModule } from './printer/printer.module';
 import { SeedModule } from './seed/seed.module';
@@ -29,7 +29,7 @@ import { QuoteModule } from './quote/quote.module';
       synchronize: true, //Warning: "disable in Prod environment, can lose production data"!
     }),
     AuthModule,
-    CustomersModule,
+    ClientsModule,
     OrdersModule,
     UsersModule,
     ReportsModule,

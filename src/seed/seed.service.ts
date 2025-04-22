@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { seed } from './seed-data';
 
 import { UsersService } from 'src/users/users.service';
-import { CustomersService } from 'src/customers/customers.service';
+import { ClientsService } from 'src/clients/clients.service';
 import { OrdersService } from 'src/orders/orders.service';
 
 
@@ -11,14 +11,14 @@ export class SeedService {
   
   constructor(
     private readonly userService: UsersService,
-    private readonly customerService: CustomersService,
+    private readonly clientsService: ClientsService,
     private readonly orderService: OrdersService
   ){}
 
   async runSeed(){
 
     await this.insertUsers();
-    await this.insertCustomers();
+    await this.insertClients();
     await this.insertOrders();
 
     return 'Seed executed correctly'
@@ -41,14 +41,14 @@ export class SeedService {
 
   }
 
-  private async insertCustomers(){
+  private async insertClients(){
 
-    const customers = seed.customers;
+    const clients = seed.clients;
     const insertPromises = [];
 
 
-    customers.forEach ( customer => {
-      insertPromises.push ( this.customerService.create(customer));
+    clients.forEach ( client => {
+      insertPromises.push ( this.clientsService.create(client));
     });
 
     await Promise.all(insertPromises);

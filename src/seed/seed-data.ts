@@ -5,7 +5,7 @@ interface Order {
     vmi: string;
     fail: string;
     user: number;
-    customer: number;
+    client: number;
 }
 
 interface User {
@@ -15,7 +15,7 @@ interface User {
     role: string;
 }
 
-interface Customer {
+interface Client {
     name: string;
     email: string;
     phone: string;
@@ -24,7 +24,7 @@ interface Customer {
 
 interface SeedData {
     users: User [];
-    customers: Customer [];
+    clients: Client [];
     orders: Order[];
 
 }
@@ -52,7 +52,7 @@ export const seed: SeedData = {
         },
         
     ],
-    customers: [
+    clients: [
         {
             name: 'Michael Scott',
             email: 'worldsbestboss@dundermifflin.com',
@@ -307,7 +307,7 @@ export const seed: SeedData = {
             vmi: 'Minor wear on keyboard, slight dent on bottom case',
             fail: 'Random system crashes, battery draining fast',
             user: 1,
-            customer: 1,
+            client: 1,
         },
         {
             serial: 'XNP0298374',
@@ -316,7 +316,7 @@ export const seed: SeedData = {
             vmi: 'Screen protector applied, small scratch on camera lens',
             fail: 'Face ID not responding, cellular signal issues',
             user: 2,
-            customer: 2,
+            client: 2,
         },
         {
             serial: 'IPDA987654Z',
@@ -325,7 +325,7 @@ export const seed: SeedData = {
             vmi: 'Heavy usage marks on screen, bent corner',
             fail: 'Touch screen unresponsive in certain areas',
             user: 3,
-            customer: 3,
+            client: 3,
         },
         {
             serial: 'APTW456789Y',
@@ -334,7 +334,7 @@ export const seed: SeedData = {
             vmi: 'Scratches on display, worn sport band',
             fail: 'Battery not holding charge, crown stuck',
             user: 1,
-            customer: 4,
+            client: 4,
         },
         {
             serial: 'MPB2023XYZ1',
@@ -343,7 +343,7 @@ export const seed: SeedData = {
             vmi: 'Perfect condition, minimal usage',
             fail: 'Wi-Fi connectivity issues, speaker crackling',
             user: 2,
-            customer: 5,
+            client: 5,
         },
         {
             serial: 'IPH15PRO123',
@@ -352,7 +352,7 @@ export const seed: SeedData = {
             vmi: 'Case used, minor scratches on frame',
             fail: 'Camera autofocus not working',
             user: 3,
-            customer: 6,
+            client: 6,
         },
         {
             serial: 'IPDM2023456',
@@ -361,7 +361,7 @@ export const seed: SeedData = {
             vmi: 'Screen protector cracked, otherwise good',
             fail: 'Not charging properly, battery drain',
             user: 1,
-            customer: 7,
+            client: 7,
         },
         {
             serial: 'APTW987ULT8',
@@ -370,7 +370,7 @@ export const seed: SeedData = {
             vmi: 'Light scratches on titanium case',
             fail: 'Altitude readings incorrect, GPS issues',
             user: 2,
-            customer: 8,
+            client: 8,
         },
         {
             serial: 'MBP16M2MAX9',
@@ -379,7 +379,7 @@ export const seed: SeedData = {
             vmi: 'Small dent on lid, keyboard marks on screen',
             fail: 'External display connection issues',
             user: 3,
-            customer: 9,
+            client: 9,
         },
         {
             serial: 'IPH15PM1TB0',
@@ -388,7 +388,7 @@ export const seed: SeedData = {
             vmi: 'Minor scratches around charging port',
             fail: 'Overheating during charging',
             user: 1,
-            customer: 10,
+            client: 10,
         },
         {
             serial: 'IPDP12M128G',
@@ -397,7 +397,7 @@ export const seed: SeedData = {
             vmi: 'Apple Pencil marks on screen protector',
             fail: 'Random restarts, Apple Pencil not pairing',
             user: 2,
-            customer: 11,
+            client: 11,
         },
         {
             serial: 'AWSE9GPS45M',
@@ -406,7 +406,7 @@ export const seed: SeedData = {
             vmi: 'Heavy wear on digital crown',
             fail: 'Heart rate sensor malfunction',
             user: 3,
-            customer: 12,
+            client: 12,
         },
         {
             serial: 'MBA15M2512',
@@ -415,7 +415,7 @@ export const seed: SeedData = {
             vmi: 'Pristine condition',
             fail: 'Keyboard certain keys not responding',
             user: 1,
-            customer: 13,
+            client: 13,
         },
         {
             serial: 'IPH14P256GB',
@@ -424,7 +424,7 @@ export const seed: SeedData = {
             vmi: 'Back glass cracked, front perfect',
             fail: 'Microphone not working during calls',
             user: 2,
-            customer: 14,
+            client: 14,
         },
         {
             serial: 'IPDAIR5256G',
@@ -433,7 +433,7 @@ export const seed: SeedData = {
             vmi: 'Minor scratches on back',
             fail: 'Display showing yellow tint',
             user: 3,
-            customer: 15,
+            client: 15,
         },
         {
             serial: 'AWULTRA2TI',
@@ -442,7 +442,7 @@ export const seed: SeedData = {
             vmi: 'Scratches on display',
             fail: 'Action button stuck',
             user: 1,
-            customer: 16,
+            client: 16,
         },
         {
             serial: 'MBP14M2PRO',
@@ -451,7 +451,7 @@ export const seed: SeedData = {
             vmi: 'Dents on corners, scratched bottom',
             fail: 'Fan making loud noise',
             user: 2,
-            customer: 17,
+            client: 17,
         },
         {
             serial: 'IPH15128GB',
@@ -460,7 +460,7 @@ export const seed: SeedData = {
             vmi: 'Like new condition',
             fail: 'Speaker distorted at high volume',
             user: 3,
-            customer: 18,
+            client: 18,
         },
         {
             serial: 'IPDM664WIFI',
@@ -469,7 +469,7 @@ export const seed: SeedData = {
             vmi: 'Heavy usage signs',
             fail: 'Not detecting Apple Pencil',
             user: 1,
-            customer: 19,
+            client: 19,
         },
         {
             serial: 'AWS9SS41MM',
@@ -478,7 +478,7 @@ export const seed: SeedData = {
             vmi: 'Scratched steel case',
             fail: 'Digital Crown not rotating smoothly',
             user: 2,
-            customer: 20,
+            client: 20,
         }
     ]
 }

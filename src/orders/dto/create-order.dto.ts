@@ -9,7 +9,7 @@ import {
   IsNumber,
 } from 'class-validator';
 import { User } from '../../users/entities/user.entity';
-import { Customer } from 'src/customers/entities/customer.entity';
+import { Client } from 'src/clients/entities/client.entity';
 import { Quote } from 'src/quote/entities/quote.entity';
 
 export class CreateOrderDto {
@@ -39,8 +39,8 @@ export class CreateOrderDto {
   user: User;
 
   @IsOptional()
-  @Type(() => Customer)
-  customer: Customer;
+  @Type(() => Client)
+  client: Client;
 
   @IsOptional()
   @Type(() => Quote)

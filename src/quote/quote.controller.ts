@@ -14,8 +14,8 @@ export class QuoteController {
   // }
 
   @Post()
-  createQuote(@Body() createQuoteDto: CreateQuoteDto) {
-    return this.quoteService.createQuote(createQuoteDto);
+  createQuote() {
+    return this.quoteService.createQuote();
   }
 
   // @Post('quote_detail')
@@ -44,13 +44,13 @@ export class QuoteController {
   }
 
   @Get(':id')
-  findQuote(@Param('id') id: number) {
-    return this.quoteService.findQuote(+id);
+  findQuote(@Param('id') id: string) {
+    return this.quoteService.findQuote(id);
   }
 
   @Patch(':id')
   updateQuote(@Param('id') id: string, @Body() updateQuoteDto: UpdateQuoteDto) {
-    return this.quoteService.updateQuote(+id, updateQuoteDto);
+    return this.quoteService.updateQuote(id, updateQuoteDto);
   }
 
   @Delete(':id')

@@ -2,7 +2,7 @@ import { AfterInsert, AfterLoad, AfterRemove, AfterUpdate, BeforeInsert, BeforeU
 import { Quote } from "./quote.entity";
 import { Part } from "src/parts/entities/part.entity";
 import { UpdateQuoteDto } from "../dto/update-quote.dto";
-import { QuoteService } from '../quote.service';
+import { QuoteService } from "../quote.service";
 
 
 @Entity('detail_quote')

@@ -29,9 +29,9 @@ export class ReportsService {
     fail: order.fail,
     createdDate: order.createdDate,
     userName: order.user.name,
-    customerName: order.customer.name,
-    customerEmail: order.customer.email,
-    customerPhone: order.customer.phone,
+    clientName: order.client.name,
+    clientEmail: order.client.email,
+    clientPhone: order.client.phone,
    });
 
     const doc = this.printerService.createPdf(docDefinition)
